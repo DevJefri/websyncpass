@@ -1,10 +1,14 @@
-const region = import.meta.env.VITE_AWS_REGION || 'us-east-1'
-const userPoolId = import.meta.env.VITE_COGNITO_USER_POOL_ID || 'us-east-1_lLYEkDgbK'
-const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID || '5hd36m6qsssbl237dmalv18pv1'
-const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN || 'https://us-east-1llyekdgbk.auth.us-east-1.amazoncognito.com'
-const redirectUri = import.meta.env.VITE_COGNITO_REDIRECT_URI || window.location.origin + '/'
-const logoutUri = import.meta.env.VITE_COGNITO_LOGOUT_URI || window.location.origin + '/'
-const scopes = import.meta.env.VITE_COGNITO_SCOPES || 'openid email profile'
+const env = import.meta.env as Record<string, string | undefined>
+
+const region = env.VITE_AWS_REGION || env.AWS_REGION || 'us-east-1'
+const userPoolId = env.VITE_COGNITO_USER_POOL_ID || env.COGNITO_USER_POOL_ID || 'us-east-1_lLYEkDgbK'
+const clientId = env.VITE_COGNITO_CLIENT_ID || env.COGNITO_CLIENT_ID || '5hd36m6qsssbl237dmalv18pv1'
+const cognitoDomain = env.VITE_COGNITO_DOMAIN || env.COGNITO_DOMAIN || 'https://us-east-1llyekdgbk.auth.us-east-1.amazoncognito.com'
+const redirectUri =
+  env.VITE_COGNITO_REDIRECT_URI || env.COGNITO_REDIRECT_URI || (typeof window !== 'undefined' ? window.location.origin + '/' : 'http://localhost:5173/')
+const logoutUri =
+  env.VITE_COGNITO_LOGOUT_URI || env.COGNITO_LOGOUT_URI || (typeof window !== 'undefined' ? window.location.origin + '/' : 'http://localhost:5173/')
+const scopes = env.VITE_COGNITO_SCOPES || env.COGNITO_SCOPES || 'openid email profile'
 
 export const authConfig = {
   authority: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}`,
